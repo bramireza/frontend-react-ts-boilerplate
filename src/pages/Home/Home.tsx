@@ -1,13 +1,5 @@
 import { MainLayout } from "../../layouts";
-import {
-  Link,
-  Box,
-  Grid,
-  Divider,
-  Card,
-  CardContent,
-  Button,
-} from "@mui/material";
+import { Box, Grid, Divider, Card, CardContent, Button } from "@mui/material";
 
 const Home = () => {
   return (
