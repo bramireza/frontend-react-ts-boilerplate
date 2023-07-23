@@ -3,12 +3,13 @@ import { useAppDispatch, useAppSelector } from "..";
 import { authServices } from "../../services";
 import { setAuth, setUser } from "../../redux/slices";
 import { AxiosError, isAxiosError } from "axios";
-import { handleError } from "../../utils";
+import { getItemLocalStorage, handleError } from "../../utils";
+import { keysConfig } from "../../configs";
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>();
   const dispatch = useAppDispatch();
-  const auth = useAppSelector((state) => state.auth);
+  const { AuthKeys } = keysConfig;
 
   const authenticateUserWithRefreshToken = async (error: AxiosError | any) => {
     // Error is expiredToken
@@ -16,7 +17,7 @@ export const useAuth = () => {
       try {
         const { accessToken, refreshToken, user } =
           await authServices.refreshToken({
-            refreshToken: auth.refreshToken,
+            refreshToken: getItemLocalStorage(AuthKeys.REFRESH_TOKEN),
           });
 
         dispatch(setAuth({ accessToken, refreshToken, userId: user._id }));

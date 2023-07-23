@@ -11,7 +11,6 @@ const Logout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.clear();
     dispatch(resetAuth());
     dispatch(resetUser());
     navigate(`/${RouteKeys.LOGIN}`, { replace: true });
