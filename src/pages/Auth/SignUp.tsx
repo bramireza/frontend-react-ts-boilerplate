@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import {
   Avatar,
   TextField,
@@ -6,16 +9,14 @@ import {
   Box,
   Typography,
   Divider,
-  Button,
 } from "@mui/material";
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { AuthLayout } from "../../layouts";
-import { useState } from "react";
-import { api } from "../../utils";
-import { IUserResponse } from "./SignIn";
-import { setAccessToken } from "../../redux/slices/auth";
-import { useAppDispatch } from "../../hooks/redux";
-import { useNavigate } from "react-router-dom";
+import { authServices } from "../../services";
+import { ButtonCustom } from "../../components";
+import { handleError } from "../../utils";
+import { keysConfig } from "../../configs";
+
+const { RouteKeys } = keysConfig;
 
 const SignUp = () => {
   const [dataForm, setDataForm] = useState({
@@ -25,7 +26,6 @@ const SignUp = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDataForm((prevState) => {
@@ -39,11 +39,10 @@ const SignUp = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const { data } = await api.post<IUserResponse>("/auth/signup", dataForm);
-      dispatch(setAccessToken(data.accessToken));
-      navigate("/");
+      const { success } = await authServices.signUp(dataForm);
+      if (success) navigate(`/${RouteKeys.LOGIN}`, { replace: true });
     } catch (error) {
-      console.log(error);
+      handleError(error);
     }
   };
   return (
@@ -117,24 +116,12 @@ const SignUp = () => {
           </Grid>
           <Grid
             container
-            sx={{ justifyContent: "center", textAlign: "center" }}
+            sx={{ justifyContent: "center", textAlign: "center", mt: 5 }}
           >
             <Grid item>
-              <Button
-                variant="contained"
-                type="submit"
-                sx={{ mt: 5, mb: 2, width: "250px" }}
-              >
-                Registrar
-              </Button>
+              <ButtonCustom>Registrar</ButtonCustom>
               <Divider>o</Divider>
-              <Button
-                variant="contained"
-                type="submit"
-                sx={{ mt: 2, mb: 2, width: "250px" }}
-              >
-                Inicia Sesión con Google
-              </Button>
+              <ButtonCustom>Iniciar Sesión con Google</ButtonCustom>
             </Grid>
           </Grid>
 

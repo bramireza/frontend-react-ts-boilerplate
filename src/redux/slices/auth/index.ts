@@ -1,37 +1,42 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getItemLocalStorage, setItemLocalStorage } from "../../../utils";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import {
+  getItemLocalStorage,
+  removeItemLocalStorage,
+  setItemLocalStorage,
+} from "../../../utils";
+import { keysConfig } from "../../../configs";
+import { Auth } from "../../../types";
 
-export interface AuthState {
-  accessToken: string | null;
-  refreshToken: string | null;
-  isLoading: boolean;
-}
+const { AuthKeys } = keysConfig;
 
-const initialState: AuthState = {
-  accessToken: getItemLocalStorage("accessToken") || null,
-  refreshToken: getItemLocalStorage("refreshToken") || null,
-  isLoading: false,
+const initialState: Auth = {
+  accessToken: getItemLocalStorage(AuthKeys.ACCESS_TOKEN) || "",
+  refreshToken: getItemLocalStorage(AuthKeys.REFRESH_TOKEN) || "",
+  userId: getItemLocalStorage(AuthKeys.USER_ID) || "",
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: AuthKeys.NAME,
   initialState,
   reducers: {
-    setAccessToken: (state, action: PayloadAction<string | null>) => {
-      state.accessToken = action.payload;
-      setItemLocalStorage("accessToken", action.payload);
+    setAuth: (state, action: PayloadAction<Auth>) => {
+      const { accessToken, refreshToken, userId } = action.payload;
+      setItemLocalStorage<string>(AuthKeys.ACCESS_TOKEN, accessToken);
+      setItemLocalStorage<string>(AuthKeys.REFRESH_TOKEN, refreshToken);
+      setItemLocalStorage<string>(AuthKeys.USER_ID, userId);
+      state.accessToken = accessToken;
+      state.refreshToken = refreshToken;
+      state.userId = userId;
     },
-    setRefreshToken: (state, action: PayloadAction<string | null>) => {
-      setItemLocalStorage("refreshToken", action.payload);
-      state.refreshToken = action.payload;
-    },
-    setIsLoading: (state, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
+    resetAuth: () => {
+      removeItemLocalStorage(AuthKeys.ACCESS_TOKEN);
+      removeItemLocalStorage(AuthKeys.REFRESH_TOKEN);
+      removeItemLocalStorage(AuthKeys.USER_ID);
+      return initialState;
     },
   },
 });
 
-export const { setAccessToken, setRefreshToken, setIsLoading } =
-  authSlice.actions;
+export const { setAuth, resetAuth } = authSlice.actions;
 
 export default authSlice.reducer;

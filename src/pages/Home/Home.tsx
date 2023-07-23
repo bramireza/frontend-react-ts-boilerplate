@@ -1,7 +1,20 @@
+import { keysConfig } from "../../configs";
+import { useAppSelector } from "../../hooks";
 import { MainLayout } from "../../layouts";
-import { Box, Grid, Divider, Card, CardContent, Button } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Button,
+  CardMedia,
+  Typography,
+  CardActions,
+} from "@mui/material";
+
+const { RouteKeys } = keysConfig;
 
 const Home = () => {
+  const user = useAppSelector((state) => state.user);
   return (
     <MainLayout>
       <Card sx={{ zIndex: 1, boxShadow: "none", mt: 5, borderRadius: 5 }}>
@@ -14,31 +27,49 @@ const Home = () => {
               padding: 2,
             }}
           >
-            <Box>
-              <Grid
-                container
-                sx={{ justifyContent: "center", textAlign: "center" }}
-              >
-                <Grid item>
+            <Box
+              sx={{
+                justifyContent: "center",
+                textAlign: "center",
+                display: "contents",
+              }}
+            >
+              <Card sx={{ maxWidth: 345, display: "contents" }}>
+                <CardMedia
+                  sx={{
+                    height: 100,
+                    width: 100,
+                    justifyContent: "center",
+                    borderRadius: "50%",
+                  }}
+                  image={`${user.pictureUrl}`}
+                  title="green iguana"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {user.fullName}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Nombres: {user.firstName}
+                    <br />
+                    Apellidos: {user.lastName}
+                    <br />
+                    Email: {user.email}
+                    <br />
+                    Género: {user.gender || "Sin Género"}
+                  </Typography>
+                </CardContent>
+                <CardActions>
                   <Button
-                    href="/signin"
+                    href={`/${RouteKeys.LOGOUT}`}
                     variant="contained"
                     sx={{ mt: 5, mb: 2 }}
                     fullWidth
                   >
-                    Inicia Sesion aqui
+                    Cerrar Sesión
                   </Button>
-                  <Divider>o</Divider>
-                  <Button
-                    href="/signup"
-                    variant="contained"
-                    sx={{ mt: 5, mb: 2 }}
-                    fullWidth
-                  >
-                    Registrate aquí
-                  </Button>
-                </Grid>
-              </Grid>
+                </CardActions>
+              </Card>
             </Box>
           </Box>
         </CardContent>

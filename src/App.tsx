@@ -1,18 +1,24 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { routes } from "./routes";
-import { Provider } from "react-redux";
-import store from "./redux/store";
+import { AuthGuard } from "./guards";
+
 const App = () => {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          {routes.map(({ path, Component }) => (
+    <BrowserRouter>
+      <Routes>
+        {routes.map(({ path, Component, isPrivate }) =>
+          isPrivate ? (
+            <Route
+              key={path}
+              path={path}
+              element={<AuthGuard component={Component} />}
+            />
+          ) : (
             <Route key={path} path={path} element={<Component />} />
-          ))}
-        </Routes>
-      </BrowserRouter>
-    </Provider>
+          ),
+        )}
+      </Routes>
+    </BrowserRouter>
   );
 };
 
