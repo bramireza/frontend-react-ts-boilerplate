@@ -28,11 +28,12 @@ const authSlice = createSlice({
       state.refreshToken = refreshToken;
       state.userId = userId;
     },
-    resetAuth: () => {
+    resetAuth: (state) => {
+      state = initialState;
       removeItemLocalStorage(AuthKeys.ACCESS_TOKEN);
       removeItemLocalStorage(AuthKeys.REFRESH_TOKEN);
       removeItemLocalStorage(AuthKeys.USER_ID);
-      return initialState;
+      // return initialState;
     },
   },
 });
