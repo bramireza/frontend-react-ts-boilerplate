@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "..";
+import { useAppDispatch } from "..";
 import { authServices } from "../../services";
 import { setAuth, setUser } from "../../redux/slices";
 import { AxiosError, isAxiosError } from "axios";
