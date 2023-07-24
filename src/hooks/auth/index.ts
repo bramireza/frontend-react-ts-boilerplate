@@ -46,7 +46,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     authenticateUser();
-  }, []);
+  }, [dispatch]);
 
   return { isAuthenticated };
 };
