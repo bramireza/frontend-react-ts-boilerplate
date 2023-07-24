@@ -4,18 +4,7 @@ import { useAppDispatch } from "../../hooks";
 import { setAuth } from "../../redux/slices";
 import { useNavigate } from "react-router-dom";
 import { keysConfig } from "../../configs";
-
-interface QueryStringParams {
-  urlRedirect?: string;
-  urlCallback?: string;
-  accessToken?: string;
-  refreshToken?: string;
-  userId?: string;
-}
-
-interface ParsedQueryString {
-  query: QueryStringParams;
-}
+import { ParsedQueryString } from "../../types";
 
 const { RouteKeys } = keysConfig;
 

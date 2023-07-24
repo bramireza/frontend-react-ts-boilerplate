@@ -18,21 +18,11 @@ import { ButtonCustom } from "../../components";
 import { keysConfig } from "../../configs";
 import { useAuth } from "../../hooks";
 import queryString from "query-string";
-interface QueryStringParams {
-  urlRedirect?: string;
-  urlCallback?: string;
-  accessToken?: string;
-  refreshToken?: string;
-  userId?: string;
-}
-interface DataProps {
-  accessToken: string;
-  refreshToken: string;
-  userId: string;
-}
-interface ParsedQueryString {
-  query: QueryStringParams;
-}
+import {
+  DataQueryString,
+  ParsedQueryString,
+  QueryStringParams,
+} from "../../types";
 
 const { RouteKeys } = keysConfig;
 
@@ -48,7 +38,7 @@ const SignIn = () => {
   const currentUrl = window.location.href;
   const { query: qs }: ParsedQueryString = queryString.parseUrl(currentUrl);
 
-  const handleRedirect = (qs: QueryStringParams, data: DataProps) => {
+  const handleRedirect = (qs: QueryStringParams, data: DataQueryString) => {
     if (qs.urlCallback && qs.urlRedirect) {
       const queryObject = {
         urlRedirect: qs.urlRedirect,
@@ -65,6 +55,7 @@ const SignIn = () => {
       navigate(`/${RouteKeys.HOME}`, { replace: true });
     }
   };
+
   useEffect(() => {
     if (isAuthenticated !== undefined) {
       if (isAuthenticated) {
