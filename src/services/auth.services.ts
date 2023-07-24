@@ -50,6 +50,9 @@ export const me = async () => {
 };
 
 export const logout = async () => {
-  const { data } = await api.get<ApiResponse>(`${baseRequest}/logout`);
+  const { data } = await api.get<ApiResponse>(
+    `${baseRequest}/logout`,
+    getConfigsWithAccessToken(),
+  );
   return data;
 };
