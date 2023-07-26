@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { keysConfig } from "../../configs";
 import { useAppSelector } from "../../hooks";
 import { MainLayout } from "../../layouts";
@@ -10,10 +11,19 @@ import {
   Typography,
   CardActions,
 } from "@mui/material";
+import { generateQueryStringWithParams } from "../../utils";
 
 const { RouteKeys } = keysConfig;
 
 const Home = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    const queryStringWithParams = generateQueryStringWithParams();
+
+    navigate(`/${RouteKeys.LOGOUT}?${queryStringWithParams}`, {
+      replace: true,
+    });
+  };
   const user = useAppSelector((state) => state.user);
   return (
     <MainLayout>
@@ -61,7 +71,7 @@ const Home = () => {
                 </CardContent>
                 <CardActions>
                   <Button
-                    href={`/${RouteKeys.LOGOUT}`}
+                    onClick={handleLogout}
                     variant="contained"
                     sx={{ mt: 5, mb: 2 }}
                     fullWidth

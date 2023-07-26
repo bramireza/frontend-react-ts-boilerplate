@@ -6,9 +6,9 @@ const { RouteKeys } = keysConfig;
 
 export const generateQueryStringWithParams = () => {
   const currentUrl = window.location.href;
-  const { origin } = new URL(currentUrl);
+  const { origin, search } = new URL(currentUrl);
 
-  const { query: queryStringInUrl } = queryString.parseUrl(currentUrl);
+  const queryStringInUrl = queryString.parse(search);
   const queryObject: QueryStringParams = {
     urlRedirect: currentUrl,
     urlCallback: `${origin}/${RouteKeys.CALLBACK}`,
