@@ -14,7 +14,12 @@ export const generateQueryStringWithParams = () => {
     urlCallback: `${origin}/${RouteKeys.CALLBACK}`,
   };
 
-  return queryString.stringify(queryStringInUrl || queryObject, {
-    sort: false,
-  });
+  const isEmptyQueryStringInUrl = Object.keys(queryStringInUrl).length === 0;
+
+  return queryString.stringify(
+    isEmptyQueryStringInUrl ? queryObject : queryStringInUrl,
+    {
+      sort: false,
+    },
+  );
 };
