@@ -40,6 +40,7 @@ const SignIn = () => {
 
   const handleRedirect = (qs: QueryStringParams, data: DataQueryString) => {
     const { urlCallback, urlRedirect } = qs;
+
     if (urlCallback && urlRedirect) {
       const queryObject = {
         urlRedirect,

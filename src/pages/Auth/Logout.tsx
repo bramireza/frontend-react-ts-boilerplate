@@ -11,9 +11,9 @@ const { RouteKeys } = keysConfig;
 const Logout = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { accessToken, refreshToken } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    const { accessToken, refreshToken } = useAppSelector((state) => state.auth);
     const queryStringWithParams = generateQueryStringWithParams();
     authServices
       .logout({ accessToken, refreshToken })
