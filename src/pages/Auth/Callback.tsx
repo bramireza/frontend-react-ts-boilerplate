@@ -16,10 +16,11 @@ const Callback = () => {
   const { query: qs }: ParsedQueryString = queryString.parseUrl(currentUrl);
 
   useEffect(() => {
-    if (qs.urlRedirect && qs.accessToken && qs.refreshToken && qs.userId) {
-      const { accessToken, refreshToken, userId } = qs;
+    const { urlRedirect, accessToken, refreshToken, userId } = qs;
+
+    if (urlRedirect && accessToken && refreshToken && userId) {
       dispatch(setAuth({ accessToken, refreshToken, userId }));
-      window.location.href = qs.urlRedirect;
+      window.location.href = urlRedirect;
     } else {
       navigate(`/${RouteKeys.HOME}`, { replace: true });
     }

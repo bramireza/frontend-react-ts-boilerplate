@@ -27,3 +27,8 @@ export interface DataRefreshToken {
 export interface DataRevokeTokens {
   userId: string;
 }
+
+export interface DataLogout {
+  accessToken: string;
+  refreshToken: string;
+}

@@ -1,6 +1,7 @@
 import { api, getConfigsWithAccessToken } from "../utils";
 import {
   ApiResponse,
+  DataLogout,
   DataRefreshToken,
   DataRevokeTokens,
   DataSignIn,
@@ -49,10 +50,7 @@ export const me = async () => {
   return data;
 };
 
-export const logout = async () => {
-  const { data } = await api.get<ApiResponse>(
-    `${baseRequest}/logout`,
-    getConfigsWithAccessToken(),
-  );
+export const logout = async (dates: DataLogout) => {
+  const { data } = await api.post<ApiResponse>(`${baseRequest}/logout`, dates);
   return data;
 };

@@ -39,9 +39,10 @@ const SignIn = () => {
   const { query: qs }: ParsedQueryString = queryString.parseUrl(currentUrl);
 
   const handleRedirect = (qs: QueryStringParams, data: DataQueryString) => {
-    if (qs.urlCallback && qs.urlRedirect) {
+    const { urlCallback, urlRedirect } = qs;
+    if (urlCallback && urlRedirect) {
       const queryObject = {
-        urlRedirect: qs.urlRedirect,
+        urlRedirect,
         accessToken: data.accessToken,
         refreshToken: data.refreshToken,
         userId: data.userId,
@@ -50,7 +51,7 @@ const SignIn = () => {
         sort: false,
       });
 
-      window.location.href = `${qs.urlCallback}?${queryStringWithParams}`;
+      window.location.href = `${urlCallback}?${queryStringWithParams}`;
     } else {
       navigate(`/${RouteKeys.HOME}`, { replace: true });
     }
