@@ -8,8 +8,7 @@ export const generateQueryStringWithParams = () => {
   const currentUrl = window.location.href;
   const { origin } = new URL(currentUrl);
 
-  const queryStringInUrl = queryString.parseUrl(currentUrl);
-
+  const { query: queryStringInUrl } = queryString.parseUrl(currentUrl);
   const queryObject: QueryStringParams = {
     urlRedirect: currentUrl,
     urlCallback: `${origin}/${RouteKeys.CALLBACK}`,
